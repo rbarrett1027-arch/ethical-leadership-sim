@@ -427,100 +427,89 @@ export default function App() {
     );
   }
 
-  // ✅ this shows the current scene (main gameplay)
-  const current = scenes[scene];
+  
+const current = scenes[scene];
 
-  return (
-    <div
-  style={{
-    maxWidth: "700px",
-    margin: "2rem auto",
-    fontFamily: "sans-serif",
-    background: "#fafafa",
-    padding: "2rem",
-    borderRadius: "12px",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-    color: "#333",
-  }}
->
-      <h2>{current.title}</h2>
-      <p>{current.text}</p>
+return (
+  <div style={{ maxWidth: "700px", margin: "2rem auto", fontFamily: "sans-serif" }}>
+    <h2>{current.title}</h2>
+    <p>{current.text}</p>
 
-      {message ? (
-        <>
-          <p style={{ fontStyle: "italic", color: "#000000ff" }}>{message}</p>
+    {message ? (
+      <>
+        <p style={{ fontStyle: "italic", color: "#000" }}>{message}</p>
+        <button
+          onClick={nextScene}
+          style={{
+            padding: "0.75rem",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            background: "#1976d2",
+            color: "#fff",
+            textAlign: "center",
+            cursor: "pointer",
+          }}
+        >
+          Continue
+        </button>
+      </>
+    ) : (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {current.options.map((opt, i) => (
           <button
-  key={i}
-  onClick={() => handleChoice(opt)}
-  style={{
-    padding: "0.75rem",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-    background: "#f7fafcff", 
-    color: "#020d1dff",      // dark blue text
-    textAlign: "left",
-    cursor: "pointer",
-  }}
->
-  {opt.label}
-</button>
-        </>
-      ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {current.options.map((opt, i) => (
-            <button
-              key={i}
-              onClick={() => handleChoice(opt)}
-              style={{
-                padding: "0.75rem",
-                borderRadius: "6px",
-                border: "1px solid #ccc",
-                background: "#f3eeee",
-                textAlign: "left",
-                cursor: "pointer",
-              }}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      )}
+            key={i}
+            onClick={() => handleChoice(opt)}
+            style={{
+              padding: "0.75rem",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              background: "#f3eeee",
+              textAlign: "left",
+              cursor: "pointer",
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    )}
 
-      <hr style={{ margin: "2rem 0" }} />
-      <h4 style={{ marginTop: "2rem" }}>Leadership Metrics</h4>
-      {Object.entries(scores).map(([k, v]) => {
-        let color = "#9e9e9e";
-        if (v >= 80) color = "#1b5e20";
-        else if (v >= 60) color = "#43a047";
-        else if (v < 40 && v >= 20) color = "#ef5350";
-        else if (v < 20) color = "#b71c1c";
+    <hr style={{ margin: "2rem 0" }} />
+    <h4 style={{ marginTop: "2rem" }}>Leadership Metrics</h4>
 
-        return (
-          <div key={k} style={{ marginBottom: "1rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span style={{ textTransform: "capitalize" }}>{k}</span>
-              <span>{v}</span>
-            </div>
+    {Object.entries(scores).map(([k, v]) => {
+      let color = "#9e9e9e";
+      if (v >= 80) color = "#1b5e20";
+      else if (v >= 60) color = "#43a047";
+      else if (v < 40 && v >= 20) color = "#ef5350";
+      else if (v < 20) color = "#b71c1c";
+
+      return (
+        <div key={k} style={{ marginBottom: "1rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ textTransform: "capitalize" }}>{k}</span>
+            <span>{v}</span>
+          </div>
+          <div
+            style={{
+              background: "#e0e0e0",
+              height: "12px",
+              borderRadius: "6px",
+              overflow: "hidden",
+            }}
+          >
             <div
               style={{
-                background: "#e0e0e0",
+                width: `${v}%`,
+                background: color,
                 height: "12px",
-                borderRadius: "6px",
-                overflow: "hidden",
+                transition: "width 0.4s ease, background 0.4s ease",
               }}
-            >
-              <div
-                style={{
-                  width: `${v}%`,
-                  background: color,
-                  height: "12px",
-                  transition: "width 0.4s ease, background 0.4s ease",
-                }}
-              />
-            </div>
+            />
           </div>
-        );
-      })}
-    </div>
-  ); // ✅ closes the return for the simulation view
+        </div>
+      );
+    })}
+  </div>
+);
 }
