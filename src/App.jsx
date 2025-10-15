@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-
 export default function App() {
-  const [scene, setScene] = useState(0);
+  const [scene, setScene] = useState(0); 
   const [scores, setScores] = useState({
     trust: 50,
     profitability: 50,
@@ -9,6 +8,8 @@ export default function App() {
     integrity: 50,
   });
   const [message, setMessage] = useState("");
+
+
 
   const scenes = [
     // 1–5 (you already had)
@@ -404,125 +405,122 @@ export default function App() {
     setMessage(opt.msg);
   };
 
-  const nextScene = () => {
+      const nextScene = () => {
     setScene((prev) => prev + 1);
     setMessage("");
-  };
+  }; 
 
+     // closes nextScene function
+
+  // ✅ this shows the ending screen once all scenes are done
   if (scene >= scenes.length) {
     return (
       <div style={{ maxWidth: "700px", margin: "2rem auto", textAlign: "center" }}>
         <h1>Simulation Complete</h1>
         <p>Your final leadership profile:</p>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {Object.entries(scores).map(([k, v]) => (
-            <li key={k}>
-              <b>{k}:</b> {v}
-            </li>
-          ))}
-        </ul>
-        <p>
-          {scores.integrity > 70 && scores.trust > 60
-            ? "You led with integrity and earned lasting respect."
-            : scores.profitability > 70
-            ? "You drove results—but trust and ethics lagged behind."
-            : "Your leadership was mixed—reflect and try again."}
-        </p>
+        {Object.entries(scores).map(([k, v]) => (
+          <div key={k}>
+            <strong>{k}:</strong> {v}
+          </div>
+        ))}
       </div>
     );
   }
 
-    const current = scenes[scene];
+  // ✅ this shows the current scene (main gameplay)
+  const current = scenes[scene];
 
   return (
-    <>
-      <div style={{ maxWidth: "700px", margin: "2rem auto", fontFamily: "sans-serif" }}>
-        <h2>{current.title}</h2>
-        <p>{current.text}</p>
+    <div
+  style={{
+    maxWidth: "700px",
+    margin: "2rem auto",
+    fontFamily: "sans-serif",
+    background: "#fafafa",
+    padding: "2rem",
+    borderRadius: "12px",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+    color: "#333",
+  }}
+>
+      <h2>{current.title}</h2>
+      <p>{current.text}</p>
 
-        {message ? (
-          <>
-            <p style={{ fontStyle: "italic", color: "#444" }}>{message}</p>
+      {message ? (
+        <>
+          <p style={{ fontStyle: "italic", color: "#000000ff" }}>{message}</p>
+          <button
+  key={i}
+  onClick={() => handleChoice(opt)}
+  style={{
+    padding: "0.75rem",
+    borderRadius: "6px",
+    border: "1px solid #ccc",
+    background: "#f7fafcff", 
+    color: "#020d1dff",      // dark blue text
+    textAlign: "left",
+    cursor: "pointer",
+  }}
+>
+  {opt.label}
+</button>
+        </>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {current.options.map((opt, i) => (
             <button
-              onClick={nextScene}
+              key={i}
+              onClick={() => handleChoice(opt)}
               style={{
-                padding: "0.5rem 1rem",
-                marginTop: "1rem",
-                cursor: "pointer",
+                padding: "0.75rem",
                 borderRadius: "6px",
+                border: "1px solid #ccc",
+                background: "#f3eeee",
+                textAlign: "left",
+                cursor: "pointer",
               }}
             >
-              Continue
+              {opt.label}
             </button>
-          </>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            {current.options.map((opt, i) => (
-              <button
-                key={i}
-                onClick={() => handleChoice(opt)}
-                style={{
-  padding: "1rem",
-  borderRadius: "8px",
-  border: "1px solid #bbb",
-  background: "#ffffff",
-  color: "#222", // dark text
-  fontSize: "1rem",
-  lineHeight: "1.4",
-  textAlign: "left",
-  cursor: "pointer",
-  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  transition: "background 0.2s ease, transform 0.1s ease",
-}}
-onMouseEnter={(e) => (e.target.style.background = "#e3f2fd")}
-onMouseLeave={(e) => (e.target.style.background = "#ffffff")}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        )}
+          ))}
+        </div>
+      )}
 
-        <hr style={{ margin: "2rem 0" }} />
-        <h4 style={{ marginTop: "2rem" }}>Leadership Metrics</h4>
+      <hr style={{ margin: "2rem 0" }} />
+      <h4 style={{ marginTop: "2rem" }}>Leadership Metrics</h4>
+      {Object.entries(scores).map(([k, v]) => {
+        let color = "#9e9e9e";
+        if (v >= 80) color = "#1b5e20";
+        else if (v >= 60) color = "#43a047";
+        else if (v < 40 && v >= 20) color = "#ef5350";
+        else if (v < 20) color = "#b71c1c";
 
-        {Object.entries(scores).map(([k, v]) => {
-          let color = "#9e9e9e";
-          if (v >= 76) color = "#1b5e20";
-          else if (v >= 51) color = "#81c784";
-          else if (v >= 26) color = "#ef5350";
-          else color = "#d32f2f";
-
-          return (
-            <div key={k} style={{ marginBottom: "1rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ textTransform: "capitalize" }}>{k}</span>
-                <span>{v}</span>
-              </div>
+        return (
+          <div key={k} style={{ marginBottom: "1rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ textTransform: "capitalize" }}>{k}</span>
+              <span>{v}</span>
+            </div>
+            <div
+              style={{
+                background: "#e0e0e0",
+                height: "12px",
+                borderRadius: "6px",
+                overflow: "hidden",
+              }}
+            >
               <div
                 style={{
-                  background: "#e0e0e0",
+                  width: `${v}%`,
+                  background: color,
                   height: "12px",
-                  borderRadius: "6px",
-                  overflow: "hidden",
+                  transition: "width 0.4s ease, background 0.4s ease",
                 }}
-              >
-                <div
-                  style={{
-                    width: `${v}%`,
-                    background: color,
-                    height: "14px",
-                    borderRadius: "6px",
-                    boxShadow: "0 0 4px rgba(0,0,0,0.2)",
-                    transition: "width 0.4s ease, background 0.4s ease",
-                  }}
-                />
-              </div>
+              />
             </div>
-          );
-        })}
-      </div>
-    </>
-  );
+          </div>
+        );
+      })}
+    </div>
+  ); // ✅ closes the return for the simulation view
 }
-bf98df2 (Initial)
