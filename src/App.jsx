@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import EthicalLeadershipSim from "./EthicalLeadershipSim";
-
-function App() {
-  return (
-    <main className="min-h-screen bg-gray-50 py-10">
-      <EthicalLeadershipSim />
-    </main>
-  );
-}
-
-export default App;
-=======
 import React, { useState } from "react";
 
 export default function App() {
@@ -538,4 +525,4 @@ onMouseLeave={(e) => (e.target.style.background = "#ffffff")}
     </>
   );
 }
->>>>>>> bf98df2 (Initial commit for Ethical Leadership Simulation app)
+bf98df2 (Initial)
